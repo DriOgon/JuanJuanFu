@@ -1,0 +1,33 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/data_bank",
+			"style": {
+				"navigationBarTitleText": "资料库"
+			}
+		},
+		{
+			"path" : "pages/index/test",
+			"style" : 
+			{
+				"navigationBarTitleText" : "资料库2"
+			}
+		},
+		{
+			"path" : "pages/index/save",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	
+	  
+	"uniIdRouter": {}
+}
