@@ -96,6 +96,10 @@ $files = $result->fetch_all(MYSQLI_ASSOC);
     .container {
         display: flex;
     }
+	.sidebar ul {
+	    max-height: 650px; /* 设置固定的高度 */
+	    overflow-y: auto; /* 启用纵向滚动条 */
+	}
     .sidebar, .right-sidebar {
         width: 20%;
         background-color: #FFFFFF;
@@ -232,7 +236,7 @@ $files = $result->fetch_all(MYSQLI_ASSOC);
         <h3><a href="/chat.php">Chat AI&nbsp;&nbsp;&nbsp;&nbsp;<-</a></h3>
         <h3><a href="/me.php">个人中心 <-</a></h3>
         <h3><a href="/community.php">福卷卷社区 <-</a></h3>
-        <h3>收录所有专业</h3>
+        <h3>所有类别</h3>
         <ul>
             <li><a href="?major=all">全部</a></li>
             <li><a href="?major=经济管理学">经济管理学</a></li>
@@ -243,13 +247,12 @@ $files = $result->fetch_all(MYSQLI_ASSOC);
             <li><a href="?major=电气工程及其自动化">电气工程及其自动化</a></li>
             <li><a href="?major=化学测量学与技术">化学测量学与技术</a></li>
             <li><a href="?major=自然地理与资源环境">自然地理与资源环境</a></li>
-        </ul>
-        <h3>海量学习资源</h3>
-        <ul>
-            <li>CET4/6</li>
-            <li>教材PDF/PPT</li>
-            <li>机器人竞赛论文</li>
-            <li>SRTP本科生研究资料</li>
+            <li><a href="?major=CET4/6">CET4/6</a></li>
+            <li><a href="?major=教材PDF/PPT">教材PDF/PPT</a></li>
+            <li><a href="?major=机器人竞赛论文">机器人竞赛论文</a></li>
+            <li><a href="?major=SRTP本科生研究资料">SRTP本科生研究资料</a></li>
+			<li><a href="?major=大学物理学">大学物理学</a></li>
+			<li><a href="?major=土木工程">土木工程</a></li>
             <li>......</li>
         </ul>
     </div>
@@ -271,7 +274,7 @@ $files = $result->fetch_all(MYSQLI_ASSOC);
     <label for="file" style="color:#007BFF;">选择文件:</label>
             <input type="file" name="file" id="file" required>
             <br>
-            <label for="major">选择专业:</label>
+            <label for="major">选择类别:</label>
             <select name="major" id="major" required>
                 <option value="经济管理学">经济管理学</option>
                 <option value="外交政治学">外交政治学</option>
@@ -281,6 +284,12 @@ $files = $result->fetch_all(MYSQLI_ASSOC);
                 <option value="电气工程及其自动化">电气工程及其自动化</option> 
                 <option value="化学测量学与技术">化学测量学与技术</option>
                 <option value="自然地理与资源环境">自然地理与资源环境</option>
+				<option value="CET4/6">CET4/6</option>
+				<option value="教材PDF/PPT">教材PDF/PPT</option>
+				<option value="机器人竞赛论文">机器人竞赛论文</option>
+				<option value="SRTP本科生研究资料">SRTP本科生研究资料</option>
+				<option value="大学物理学">大学物理学</option>
+				<option value="土木工程">土木工程</option>
             </select>
             <br>
             <input type="submit" value="上传">
@@ -294,22 +303,7 @@ $files = $result->fetch_all(MYSQLI_ASSOC);
         </form>
         <br>
         
-        <h3>搜索结果</h3>
-        <ul>
-        <?php
-            if (!empty($search_query)) {
-                if (empty($files)) {
-                    echo "<li>无搜索结果</li>";
-                } else {
-                    foreach ($files as $file) {
-                        echo "<li><a href='$upload_dir$file' target='_blank'>$file</a></li>";
-                    }
-                }
-            } else {
-                echo "";
-            }
-            ?>
-        </ul>
+        
     </div>
 </div>
 </body>
