@@ -1,14 +1,12 @@
 <?php
-include 'db.php'; // 确保你已经正确配置了数据库连接
+include 'db.php';
 
 $upload_dir = 'uploads/';
 
-// 处理文件上传
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file']) && isset($_POST['major'])) {
     $file_name = $_FILES['file']['name'];
     $major = $_POST['major'];
 
-    // 如果文件名是 GBK 编码，转换为 UTF-8
     if (mb_detect_encoding($file_name, 'UTF-8', true) === false) {
         $file_name = mb_convert_encoding($file_name, 'UTF-8', 'GBK');
     }
@@ -29,29 +27,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file']) && isset($_PO
 
     if (in_array($_FILES['file']['type'], $allowed_types)) {
         if (move_uploaded_file($_FILES['file']['tmp_name'], $upload_file)) {
-            // 将文件信息插入数据库
             $stmt = $conn->prepare("INSERT INTO files (filename, filepath, category) VALUES (?, ?, ?)");
             $stmt->bind_param("sss", $file_name, $upload_file, $major);
             if ($stmt->execute()) {
-                echo "文件上传成功！";
+                $message = "文件上传成功，请重试!";
             } else {
-                echo "文件信息插入数据库失败！";
+                $message = "文件上传失败，请重试!";
             }
         } else {
-            echo "文件上传失败！";
+            $message = "文件上传失败，请重试!";
         }
     } else {
-        echo "不允许的文件类型！";
+        $message = "文件上传失败，请重试！";
     }
 }
 
-// 处理搜索请求
+
 $search_query = '';
 if (isset($_POST['search'])) {
     $search_query = trim($_POST['search']);
 }
 
-// 处理分类筛选
 $selected_major = isset($_GET['major']) ? $_GET['major'] : '';
 $where_clause = "";
 $params = [];
@@ -79,6 +75,7 @@ $stmt->execute();
 $result = $stmt->get_result();
 $files = $result->fetch_all(MYSQLI_ASSOC);
 ?>
+
 <!DOCTYPE html>
 <html lang="zh">
 <head>
@@ -97,8 +94,8 @@ $files = $result->fetch_all(MYSQLI_ASSOC);
         display: flex;
     }
 	.sidebar ul {
-	    max-height: 650px; /* 设置固定的高度 */
-	    overflow-y: auto; /* 启用纵向滚动条 */
+	    max-height: 650px;
+	    overflow-y: auto;
 	}
     .sidebar, .right-sidebar {
         width: 20%;
@@ -234,9 +231,9 @@ $files = $result->fetch_all(MYSQLI_ASSOC);
 <div class="container">
     <div class="sidebar">
         <h3><a href="/chat.php">Chat AI&nbsp;&nbsp;&nbsp;&nbsp;<-</a></h3>
-        <h3><a href="/me.php">个人中心 <-</a></h3>
-        <h3><a href="/community.php">福卷卷社区 <-</a></h3>
-        <h3>所有类别</h3>
+        <h3><a href="me.php">个人中心 <-</a></h3>
+        <h3><a href="/community.php">卷卷福社区 <-</a></h3>
+        <h3>涵盖所有专业</h3>
         <ul>
             <li><a href="?major=all">全部</a></li>
             <li><a href="?major=经济管理学">经济管理学</a></li>
@@ -247,18 +244,36 @@ $files = $result->fetch_all(MYSQLI_ASSOC);
             <li><a href="?major=电气工程及其自动化">电气工程及其自动化</a></li>
             <li><a href="?major=化学测量学与技术">化学测量学与技术</a></li>
             <li><a href="?major=自然地理与资源环境">自然地理与资源环境</a></li>
+            <li><a href="?major=人工智能与机器学习">人工智能与机器学习</a></li>
+            <li><a href="?major=数据科学与大数据">数据科学与大数据</a></li>
+            <li><a href="?major=网络安全与防护">网络安全与防护</a></li>
+            <li><a href="?major=电子与通信工程">电子与通信工程</a></li>
+            <li><a href="?major=计算机图形学与视觉">计算机图形学与视觉</a></li>
+            <li><a href="?major=机器人技术与自动化">机器人技术与自动化</a></li>
+
+        </ul>
+        <h3>海量学习资源</h3>
+        <ul>
             <li><a href="?major=CET4/6">CET4/6</a></li>
             <li><a href="?major=教材PDF/PPT">教材PDF/PPT</a></li>
             <li><a href="?major=机器人竞赛论文">机器人竞赛论文</a></li>
             <li><a href="?major=SRTP本科生研究资料">SRTP本科生研究资料</a></li>
-			<li><a href="?major=大学物理学">大学物理学</a></li>
-			<li><a href="?major=土木工程">土木工程</a></li>
+            <li><a href="?major=人工智能课程资料">人工智能课程资料</a></li>
+            <li><a href="?major=Python编程教材">Python编程教材</a></li>
+            <li><a href="?major=数据结构与算法">数据结构与算法</a></li>
+            <li><a href="?major=嵌入式系统资料">嵌入式系统资料</a></li>
+            <li><a href="?major=计算机网络教程">计算机网络教程</a></li>
+            <li><a href="?major=操作系统讲义">操作系统讲义</a></li>
+            <li><a href="?major=机器学习经典文献">机器学习经典文献</a></li>
+            <li><a href="?major=数据库系统教材">数据库系统教材</a></li>
+            <li><a href="?major=前端开发学习资料">前端开发学习资料</a></li>
+            <li><a href="?major=网络安全研究文献">网络安全研究文献</a></li>
             <li>......</li>
         </ul>
     </div>
 
     <div class="main-content">
-    <h2>资源中心</h2>
+    <h2>当前资源中心</h2>
     <ul class="file-list">
         <?php
         foreach ($files as $file) {
@@ -297,14 +312,94 @@ $files = $result->fetch_all(MYSQLI_ASSOC);
         <br><br><br>
 
         <form action="" method="post">
-            <label for="search" style="color:#007BFF;">搜索文件名:</label>
+            <label for="search" style="color:#007BFF;">搜索当前资源中心文件名:</label>
             <input type="text" name="search" id="search" value="<?php echo $search_query; ?>">
             <input type="submit" value="搜索">
         </form>
         <br>
-        
-        
     </div>
 </div>
+<style>
+    .modal {
+        display: none; 
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4);
+        overflow: auto;
+        padding-top: 100px;
+    }
+
+    .modal-content {
+        background-color: #fff;
+        margin: 5% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 400px;
+        text-align: center;
+        border-radius: 10px;
+    }
+
+    .modal .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .modal .close:hover,
+    .modal .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .success {
+        color: green;
+    }
+
+    .error {
+        color: red;
+    }
+</style>
+<script>
+    window.onload = function () {
+        <?php if (!empty($message)) { ?>
+            var modal = document.getElementById("myModal");
+            var modalContent = document.getElementById("modalContent");
+            var closeBtn = document.getElementById("closeBtn");
+
+            modalContent.textContent = "<?php echo $message; ?>";
+            modalContent.classList.add("error");
+
+            if ("<?php echo $message; ?>" === "文件上传成功!") {
+                modalContent.classList.remove("error");
+                modalContent.classList.add("success");
+            }
+
+            modal.style.display = "block";
+
+            closeBtn.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target === modal) {
+                    modal.style.display = "none";
+                }
+            }
+        <?php } ?>
+    };
+</script>
+<div id="myModal" class="modal">
+    <div class="modal-content" id="modalContent">
+        <span id="closeBtn" class="close">&times;</span>
+    </div>
+</div>
+
 </body>
 </html>
