@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file']) && isset($_PO
             $stmt = $conn->prepare("INSERT INTO files (filename, filepath, category) VALUES (?, ?, ?)");
             $stmt->bind_param("sss", $file_name, $upload_file, $major);
             if ($stmt->execute()) {
-                $message = "文件上传成功，请重试!";
+                $message = "文件上传成功，获得100福币!";
             } else {
                 $message = "文件上传失败，请重试!";
             }
@@ -296,15 +296,28 @@ $files = $result->fetch_all(MYSQLI_ASSOC);
                 <option value="国际新闻与传播">国际新闻与传播</option>
                 <option value="马克思主义理论">马克思主义理论</option>
                 <option value="计算机科学与技术">计算机科学与技术</option>
-                <option value="电气工程及其自动化">电气工程及其自动化</option> 
-                <option value="化学测量学与技术">化学测量学与技术</option>
-                <option value="自然地理与资源环境">自然地理与资源环境</option>
+                <option value="电气工程及其自动化">电气工程及其自动化</option>
+                <option value="人工智能与机器学习">人工智能与机器学习</option>
+                <option value="数据科学与大数据">数据科学与大数据</option>
+                <option value="网络安全与防护">网络安全与防护</option>
+                <option value="电子与通信工程">电子与通信工程</option>
+                <option value="计算机图形学与视觉">计算机图形学与视觉</option>
+                <option value="机器人技术与自动化">机器人技术与自动化</option> 
 				<option value="CET4/6">CET4/6</option>
 				<option value="教材PDF/PPT">教材PDF/PPT</option>
 				<option value="机器人竞赛论文">机器人竞赛论文</option>
 				<option value="SRTP本科生研究资料">SRTP本科生研究资料</option>
-				<option value="大学物理学">大学物理学</option>
-				<option value="土木工程">土木工程</option>
+                <option value="人工智能课程资料">人工智能课程资料</option>
+                <option value="Python编程教材">Python编程教材</option>
+                <option value="数据结构与算法">数据结构与算法</option>
+                <option value="嵌入式系统资料">嵌入式系统资料</option>
+                <option value="计算机网络教程">计算机网络教程</option>
+                <option value="操作系统讲义">操作系统讲义</option>
+                <option value="机器学习经典文献">机器学习经典文献</option>
+                <option value="数据库系统教材">数据库系统教材</option>
+                <option value="前端开发学习资料">前端开发学习资料</option>
+                <option value="网络安全研究文献">网络安全研究文献</option>
+                
             </select>
             <br>
             <input type="submit" value="上传">
