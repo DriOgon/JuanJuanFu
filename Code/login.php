@@ -5,9 +5,10 @@ include 'db.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $student_id = $_POST['student_id'];
     $password = $_POST['password'];
-
-    $sql = "SELECT * FROM users WHERE student_id='$student_id' AND password='$password'";
-    $result = $conn->query($sql);
+    $stmt = $conn->prepare("SELECT * FROM users WHERE student_id=? AND password=?");
+    $stmt->bind_param("ss", $student_id, $password);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
         $_SESSION['student_id'] = $student_id;
@@ -19,96 +20,54 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>登录</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #E6F2FF;
-            color: #333;
-            padding: 20px;
-        }
-        .header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .header h1 {
-            font-size: 2.5em;
-            color: #007BFF;
-            margin: 0;
-        }
-        form {
-            background-color: #FFFFFF;
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            margin: auto;
-        }
-        input[type="text"],
-        input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #007BFF;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-        input[type="submit"] {
-            background-color: #007BFF;
-            color: #FFFFFF;
-            border: none;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            width: 100%; 
-            margin-top: 10px; 
-                }
-        input[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-        p {
-            text-align: center;
-        }
-        a {
-            color: #007BFF;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        .error {
-            color: red;
-            text-align: center;
-        }
-    </style>
+  <meta charset="utf-8">
+  <title>卷卷福</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+  <meta name="description" content="particles.js is a lightweight JavaScript library for creating particles.">
+  <meta name="author" content="Vincent Garreau" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" media="screen" href="css/style1.css">
+  <link rel="stylesheet" type="text/css" href="css/reset1.css"/>
 </head>
 <body>
 
-<div class="header">
-    <h1>卷卷福</h1>
+<div id="particles-js">
+    <div class="login">
+        <div class="login-top">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;卷卷福
+            <br>
+            让每一次点击 都充满意义
+        </div>
+        <form method="POST" action="">
+            <div class="login-center clearfix">
+                <!-- <div class="login-center-img"><img src="img/name.png" /></div> -->
+                <div class="login-center-input">
+                    <input type="text" name="student_id" placeholder="学号" required />
+                    <!-- <div class="login-center-input-text">用户名</div> -->
+                </div>
+            </div>
+            <div class="login-center clearfix">
+                <!-- <div class="login-center-img"><img src="img/password.png" /></div> -->
+                <div class="login-center-input">
+                    <input type="password" name="password" placeholder="密码" required />
+                    <!-- <div class="login-center-input-text">密码</div> -->
+                </div>
+            </div>
+            <div class="login-button" onclick="this.closest('form').submit();">
+                登录
+            </div>
+            <div class="login-footer">
+                <p><a href="register.php">没有账户?点我注册</a></p>
+                <p>忘记密码请联系管理员: <a href="mailto:admin@Flucky.com">admin@Flucky.com</a></p>
+            </div>
+        </form>
+    </div>
+    <div class="sk-rotating-plane"></div>
 </div>
 
-<form method="post">
-    <h2>登录账户</h2>
-    <label for="student_id">学号:</label>
-    <input type="text" name="student_id" required>
-    
-    <label for="password">密码:</label>
-    <input type="password" name="password" required>
-    
-    <input type="submit" value="登录">
-    
-    <p class="error"><?php echo isset($error_message) ? $error_message : ''; ?></p>
-    <p><a href="register.php">没有账户?点我注册</a></p>
-</form>
-
-<p>忘记密码请联系管理员: <a href="mailto:admin@Flucky.com">admin@Flucky.com</a></p>
-
+<script src="js/particles.min.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>
