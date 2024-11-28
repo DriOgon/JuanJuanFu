@@ -5,10 +5,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = mysqli_real_escape_string($conn, $_POST['name']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $major = mysqli_real_escape_string($conn, $_POST['major']);
     
     if (isset($student_id)) {
-        $stmt = $conn->prepare("INSERT INTO users (student_id, name, password, email) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("ssss", $student_id, $name, $password, $email);
+        $stmt = $conn->prepare("INSERT INTO users (student_id,  password,name,major, email) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssss", $student_id,  $password, $name, $major,$email);
         
         if ($stmt->execute()) {
             echo "<script>alert('注册成功!'); window.location.href = 'login.php';</script>";
@@ -39,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div id="particles-js">
     <div class="login">
         <div class="login-top">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;卷卷福
+            卷卷福
             <br>
             让每一次点击 都充满意义
         </div>
@@ -52,17 +53,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
             </div>
 
+            
+
+            <div class="login-center clearfix">
+                <!-- 密码 -->
+                <div class="login-center-input">
+                    <input type="password" name="password" placeholder="密码" required />
+                </div>
+            </div>
+            
             <div class="login-center clearfix">
                 <!-- 姓名 -->
                 <div class="login-center-input">
                     <input type="text" name="name" placeholder="姓名" required />
                 </div>
             </div>
-
             <div class="login-center clearfix">
-                <!-- 密码 -->
+                <!-- 专业 -->
                 <div class="login-center-input">
-                    <input type="password" name="password" placeholder="密码" required />
+                    <input type="text" name="major" placeholder="专业" required />
                 </div>
             </div>
 

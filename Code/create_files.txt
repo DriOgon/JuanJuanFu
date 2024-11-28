@@ -13,5 +13,9 @@ CREATE TABLE users (
     student_id VARCHAR(50) NOT NULL UNIQUE,
     name VARCHAR(100) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    email VARCHAR(100) NOT NULL
+    email VARCHAR(100) NOT NULL,
+   major varchar(100) DEFAULT NULL,
+  coins int(200) DEFAULT 0,
+  introduction varchar(100) DEFAULT NULL,
+  avatar longblob
 );
