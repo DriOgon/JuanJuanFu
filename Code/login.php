@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['student_id'] = $student_id;
         header("Location: resource.php");
     } else {
-        $error_message = "登录失败，学号或密码错误。";
+        echo"<script>alert('用户名或密码错误');</script>";
     }
 }
 ?>
