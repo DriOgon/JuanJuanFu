@@ -1,0 +1,33 @@
+body {
+    background-color: #f0f8ff; /* 浅蓝色背景 */
+    color: #000; /* 黑色文字 */
+}
+
+a {
+    color: #007bff; /* 蓝色链接 */
+    font-weight: 300;
+    text-decoration: none;
+}
+
+.table {
+    background-color: #ffffff; /* 白色背景 */
+    border-color: #007bff; /* 蓝色边框 */
+}
+
+.button {
+    background-color: #007bff; /* 蓝色按钮 */
+    color: #ffffff; /* 白色文字 */
+}
+
+pre {
+    background: #f8f9fa; /* 浅灰色背景 */
+    color: #000; /* 黑色文字 */
+}
+
+h1, h2, h3, h4 {
+    color: #007bff; /* 蓝色标题 */
+}
+
+p {
+    color: #333; /* 深灰色段落文字 */
+}

@@ -1,0 +1,49 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f8ff; /* 浅蓝色背景 */
+    color: #333; /* 深色文字 */
+    margin: 0;
+    padding: 0;
+}
+header {
+    background-color: #007bff; /* 蓝色头部 */
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+nav {
+    margin: 20px 0;
+}
+nav a {
+    color: #007bff; /* 蓝色链接 */
+    text-decoration: none;
+    margin: 0 15px;
+}
+nav a:hover {
+    text-decoration: underline; /* 悬停时下划线 */
+}
+.content {
+    padding: 20px;
+    background-color: white; /* 白色内容区域 */
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+.text-display {
+    margin-bottom: 20px; /* 文本显示部分与输入框的间距 */
+}
+.input-section {
+    display: flex; /* 使用 flexbox 布局 */
+    gap: 10px; /* 输入框与按钮之间的间距 */
+}
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #007bff; /* 蓝色底部 */
+    color: white;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+.text-display p {
+    white-space: pre-wrap; /* 保留空格和换行 */
+}

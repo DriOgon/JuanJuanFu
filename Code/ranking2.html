@@ -1,0 +1,286 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>排行榜</title>
+<meta name="keywords" content="个人博客,杨青个人博客,个人博客模板,杨青" />
+<meta name="description" content="杨青个人博客，是一个站在web前端设计之路的女程序员个人网站，提供个人博客模板免费资源下载的个人原创网站。" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="css/base.css" rel="stylesheet">
+<link href="css/index.css" rel="stylesheet">
+<link href="css/m.css" rel="stylesheet">
+
+<!--[if lt IE 9]>
+<script src="js/modernizr.js"></script>
+<![endif]-->
+<script>
+window.onload = function ()
+{
+	var oH2 = document.getElementsByTagName("h2")[0];
+	var oUl = document.getElementsByTagName("ul")[0];
+	oH2.onclick = function ()
+	{
+		var style = oUl.style;
+		style.display = style.display == "block" ? "none" : "block";
+		oH2.className = style.display == "block" ? "open" : ""
+	}
+}
+</script>
+</head>
+<body>
+<header>
+  <div class="tophead">
+    <div class="logo"><a href="/">社区</a></div>
+    <div id="mnav">
+      <h2><span class="navicon"></span></h2>
+      <ul>
+        <li><a href="community.php">问题咨询</a></li>
+        <li><a href="paper.php">试卷求助</a></li>
+        <li><a href="ranking.html">排行榜</a></li>
+        
+      </ul>
+    </div>
+    <nav class="topnav" id="topnav">
+      <ul>
+        <li><a href="community.php">问题咨询</a></li>
+        <li><a href="paper.php">试卷求助</a></li>
+        <li><a href="ranking.html">排行榜</a></li>
+       
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="ranking-container">
+    <div class="tabs">
+        <div class="active" data-type="daily">日榜</div>
+        <div data-type="weekly">周榜</div>
+        <div data-type="monthly">月榜</div>
+    </div>
+    <div class="top-three">
+        <!-- 动态数据填充 -->
+    </div>
+    <ul class="ranking-list">
+        <!-- 动态数据 -->
+    </ul>
+</div>
+
+<script>
+    // 获取排行数据并渲染
+    function loadRanking(type) {
+        fetch(`ranking.php?type=${type}`)
+            .then(response => response.json())
+            .then(data => {
+                const topThreeContainer = document.querySelector('.top-three');
+                const list = document.querySelector('.ranking-list');
+                
+                list.innerHTML = '';  // 清空现有内容
+
+                // 处理前三名
+                const [gold, silver, bronze, ...others] = data;
+                topThreeContainer.innerHTML = `
+                    <div class="silver">
+                        <span>${silver.name}</span>
+                        <span>${silver.count} 单</span>
+                    </div>
+                    <div class="gold">
+                        <span>${gold.name}</span>
+                        <span>${gold.count} 单</span>
+                    </div>
+                    <div class="bronze">
+                        <span>${bronze.name}</span>
+                        <span>${bronze.count} 单</span>
+                    </div>
+                `;
+                
+                // 处理剩余数据
+                others.forEach((item, index) => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <span>${index + 4}</span>
+                        <span>${item.name}</span>
+                        <span>${item.count} 单</span>
+                    `;
+                    list.appendChild(li);
+                });
+            })
+            .catch(error => console.error('Error loading ranking:', error));
+    }
+
+    // 初始化加载日榜数据
+    loadRanking('daily');
+
+    // 添加点击事件以切换排行榜
+    document.querySelectorAll('.tabs div').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.tabs div').forEach(d => d.classList.remove('active'));
+            tab.classList.add('active');
+            const type = tab.getAttribute('data-type');
+            loadRanking(type);  // 加载对应类型的榜单数据
+        });
+    });
+</script>
+
+<style>
+    /* 排行榜页面样式 */
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f5f5f5;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+    }
+
+    /* 使用 ::before 和 ::after 插入背景图片 */
+    body::before,
+    body::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 25%;
+        background-repeat: no-repeat;
+        background-position: bottom 40px center;
+        background-size: 100% 85%;
+    }
+
+    /* 左侧背景图片 */
+    body::before {
+        left: 0;
+        background-image: url('images/奖杯.png');
+    }
+
+    /* 右侧背景图片 */
+    body::after {
+        right: 0;
+        background-image: url('images/奖杯.png');
+    }
+
+    /* 导航栏样式 */
+    header {
+        background-color: #fff;
+        color: black;
+        padding: 5px 0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .tophead {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1300px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .logo a {
+        color: black;
+        font-size: 30px;
+        text-decoration: none;
+    }
+
+    #mnav ul {
+        display: none;
+    }
+
+    #mnav h2 {
+        cursor: pointer;
+    }
+
+    .topnav ul {
+        display: flex;
+        list-style: none;
+        padding: 0;
+    }
+
+    .topnav ul li {
+        margin-right: 20px;
+    }
+
+    .topnav ul li a {
+        color: black;
+        text-decoration: none;
+    }
+
+    .topnav ul li a:hover {
+        text-decoration: underline;
+    }
+
+    /* 排行榜容器 */
+    .ranking-container {
+        flex: 1;
+        width: 50%;
+        margin: 0 auto;
+        background: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+
+    .tabs {
+        display: flex;
+        justify-content: space-around;
+        background-color: #007BFF;
+        padding: 10px 0;
+        color: #fff;
+        font-weight: bold;
+    }
+
+    .tabs div {
+        cursor: pointer;
+    }
+
+    .tabs div.active {
+        border-bottom: 3px solid #FFD700;
+    }
+
+    .top-three {
+        display: flex;
+        justify-content: space-around;
+        padding: 20px;
+        background: #f9f9f9;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .top-three div {
+        text-align: center;
+    }
+
+    .top-three div span {
+        display: block;
+    }
+
+    .top-three .gold { color: gold; }
+    .top-three .silver { color: silver; }
+    .top-three .bronze { color: #cd7f32; }
+
+    /* 排行榜列表样式 */
+    .ranking-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        flex: 1;
+        overflow-y: auto;
+        padding-right: 10px;
+    }
+
+    .ranking-list li {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+        align-items: center;
+    }
+
+    .ranking-list li span {
+        font-weight: bold;
+    }
+</style>
+
+</body>
+</html>
